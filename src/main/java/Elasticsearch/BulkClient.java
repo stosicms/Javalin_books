@@ -1,13 +1,10 @@
 package Elasticsearch;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
-import co.elastic.clients.elasticsearch.indices.ExistsRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.indices.CreateIndexRequest;
-import org.elasticsearch.xcontent.XContentBuilder;
+import co.elastic.clients.elasticsearch.indices.*;
 
 import java.io.IOException;
+
 
 public class BulkClient {
     ElasticsearchClient client = ElasticClient.getClientInstance();
@@ -18,9 +15,31 @@ public class BulkClient {
     }
     void makeIndex (String index) throws IOException {
         if (!checkIfIndexExists(index)) {
-            CreateIndexRequest indexRequest = new CreateIndexRequest(index);
-
-            CreateIndexResponse createIndexResponse = this.client.indices().create(indexRequest, RequestOptions.DEFAULT);
+            CreateIndexResponse createIndexResponse = client.indices().create(i->i.index(index));
         }
+    }
+ /*   void setMapping (String index) throws IOException {
+        PutMappingRequest mappingRequest = new PutMappingRequest.Builder().index(index).build();
+        mappingRequest.source().serialize("{\n" +
+                " \"properties\": {\n" +
+                "  \"id\": {\n" +
+                "   \"type\":\"integer\"\n" +
+                "  \"book_name\": {\n" +
+                "   \"type\":\"text\"\n" +
+                "  \"author\": {\n" +
+                "   \"type\":\"text\"\n" +
+                "  }\n" +
+                " }\n" +
+                "}", JsonMapper);
+
+        XContentBuilder mapping = jsonBuilder().startObject().startObject(index).startObject("properties")
+                .startObject().field("id", "integer")
+                              .field("book_name", "text")
+                              .field("author", "text").endObject().endObject().endObject();
+        PutMappingResponse mappingResponse = client.indices().create(mapping);
+
+    }*/
+    public <T> void bulkIndex (String index) throws IOException {
+        makeIndex(index);
     }
 }
