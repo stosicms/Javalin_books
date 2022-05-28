@@ -18,7 +18,7 @@ public class BulkClient {
             client.indices().create(i->i.index(index));
         }
     }
- /*   void setMapping (String index) throws IOException {
+    void setMapping (String index) throws IOException {
         PutMappingRequest mappingRequest = new PutMappingRequest.Builder().index(index).build();
         mappingRequest.source().serialize("{\n" +
                 " \"properties\": {\n" +
@@ -30,15 +30,10 @@ public class BulkClient {
                 "   \"type\":\"text\"\n" +
                 "  }\n" +
                 " }\n" +
-                "}", JsonMapper);
+                "}", );
 
-        XContentBuilder mapping = jsonBuilder().startObject().startObject(index).startObject("properties")
-                .startObject().field("id", "integer")
-                              .field("book_name", "text")
-                              .field("author", "text").endObject().endObject().endObject();
-        PutMappingResponse mappingResponse = client.indices().create(mapping);
 
-    }*/
+    }
     public void bulkIndex (String index) throws IOException {
         makeIndex(index);
     }
