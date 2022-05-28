@@ -15,7 +15,7 @@ public class BulkClient {
     }
     void makeIndex (String index) throws IOException {
         if (!checkIfIndexExists(index)) {
-            CreateIndexResponse createIndexResponse = client.indices().create(i->i.index(index));
+            client.indices().create(i->i.index(index));
         }
     }
  /*   void setMapping (String index) throws IOException {
@@ -39,7 +39,7 @@ public class BulkClient {
         PutMappingResponse mappingResponse = client.indices().create(mapping);
 
     }*/
-    public <T> void bulkIndex (String index) throws IOException {
+    public void bulkIndex (String index) throws IOException {
         makeIndex(index);
     }
 }
